@@ -5,9 +5,10 @@ using System.Web;
 
 namespace MovieApp.Models
 {
-  public class MovieSearchViewModel
+  public class MovieListViewModel
   {
     public string Search { get; set; }
-    public string[] Movies { get; set; }
+    public Movie[] Movies { get; set; }
+    public Movie NewMovie { get; set; }
   }
 }

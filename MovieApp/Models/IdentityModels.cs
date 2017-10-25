@@ -29,5 +29,8 @@ namespace MovieApp.Models
         {
             return new ApplicationDbContext();
         }
+
+    public IDbSet<Movie> Movies { get; set; }
+    public IDbSet<Genre> Genres { get; set; }
     }
 }

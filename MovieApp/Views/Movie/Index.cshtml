@@ -1,6 +1,6 @@
-﻿
+﻿@model MovieApp.Models.MovieListViewModel
 @{
-    ViewBag.Title = "Index";
+  ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
@@ -10,21 +10,38 @@
   <span>Found @Model.Movies.Length movies.</span>
 }
 
+@Html.ActionLink("Hjem", "Index", "Home", null, new { @class = "linkClass" })
 <form method="get" action="/Movie">
   <input type="search" name="search" />
   <input type="submit" value="Search" />
 </form>
-@if (User.Identity.IsAuthenticated)
+@if (Request.IsAuthenticated)
 {
-  <form method="post" action="/Movie/Create">
+  using (Html.BeginForm("Create", "Movie"))
+  {
     @Html.AntiForgeryToken()
-    <input type="text" name="movie" />
+    @Html.LabelFor(m => m.NewMovie.Title)
+    @Html.EditorFor(m => m.NewMovie.Title)
+    @Html.LabelFor(m => m.NewMovie.Year)
+    @Html.EditorFor(m => m.NewMovie.Year)
+    @Html.LabelFor(m => m.NewMovie.ImageUrl)
+    @Html.EditorFor(m => m.NewMovie.ImageUrl)
     <input type="submit" value="Add" />
-  </form>
+  }
 }
-<ul>
+<ul class="image-list">
   @foreach (var movie in Model.Movies)
   {
-    <li>@movie</li>
+    <li class="image-list-item">
+      <div class="left">
+        <img src="@movie.ImageUrl" class="image-list-item-image" />
+        @movie.Title (@movie.Year) - @movie.Genre.Name
+      </div>
+      <div class="right">
+          @Html.ActionLink("Edit", "Edit", new { id = movie.Id }) |
+          @Html.ActionLink("Details", "Details", new { id = movie.Id }) |
+          @Html.ActionLink("Delete", "Delete", new { id = movie.Id }) |
+        </div>
+    </li>
   }
 </ul>
